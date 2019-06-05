@@ -17,10 +17,12 @@ function handlerTocs($, page, modifyHeader) {
     var count = {
         h1: 0,
         h2: 0,
-        h3: 0
+        h3: 0,
+        h4: 0,
+        h5: 0,
+        h6: 0
     };
     var titleCountMap = {}; // 用来记录标题出现的次数
-    var h1 = 0, h2 = 0, h3 = 0;
     $(':header').each(function (i, elem) {
         var header = $(elem);
         var id = addId(header, titleCountMap);
@@ -35,6 +37,15 @@ function handlerTocs($, page, modifyHeader) {
                     break;
                 case "h3":
                     handlerH3Toc(config, count, header, tocs, page.level, modifyHeader);
+                    break;
+                case "h4":
+                    handlerH4Toc(config, count, header, tocs, page.level, modifyHeader);
+                    break;
+                case "h5":
+                    handlerH5Toc(config, count, header, tocs, page.level, modifyHeader);
+                    break;
+                case "h6":
+                    handlerH6Toc(config, count, header, tocs, page.level, modifyHeader);
                     break;
                 default:
                     titleAddAnchor(header, id);
@@ -230,6 +241,286 @@ function handlerH3Toc(config, count, header, tocs, pageLevel, modifyHeader) {
     });
 }
 
+
+/**
+ * 处理h4
+ * @param count 计数器
+ * @param header
+ */
+function handlerH4Toc(config, count, header, tocs, pageLevel, modifyHeader) {
+    var title = header.text();
+    var id = header.attr('id');
+    var level = ''; //层级
+
+    if (tocs.length <= 0) {
+        //一级节点为空时，生成一个空的一级节点，让二级节点附带在这个上面
+        if (config.showLevel) {
+            count.h1 += 1;
+        }
+        tocs.push({
+            name: "",
+            level: "",
+            url: "",
+            children: []
+        });
+    }
+    var h1Toc = tocs[tocs.length - 1];
+
+    var h2Tocs = h1Toc.children;
+    if (h2Tocs.length <= 0) {
+        //二级节点为空时，生成一个空的二级节点，让三级节点附带在这个上面
+        if (config.showLevel) {
+            count.h2 += 1;
+        }
+        h2Tocs.push({
+            name: "",
+            level: "",
+            url: "",
+            children: []
+        });
+    }
+    var h2Toc = h1Toc.children[h2Tocs.length - 1];
+
+    var h3Tocs = h2Toc.children;
+    if (h3Tocs.length <= 0) {
+        //二级节点为空时，生成一个空的二级节点，让三级节点附带在这个上面
+        if (config.showLevel) {
+            count.h3 += 1;
+        }
+        h3Tocs.push({
+            name: "",
+            level: "",
+            url: "",
+            children: []
+        });
+    }
+    var h3Toc = h2Toc.children[h3Tocs.length - 1];
+
+    if (config.showLevel) {
+        count.h4 += 1;
+        if (config.multipleH1) {
+            level = (count.h1 + '.' + count.h2 + '.' + count.h3 + '.' + count.h4 + '. ');
+        } else {
+            level = (count.h2 + '.' + count.h3 + '.' + count.h4 + '. ');
+        }
+        if (config.associatedWithSummary && config.themeDefault.showLevel) {
+            level = pageLevel + "." + level;
+        }
+        if (!modifyHeader) {
+            level  = '';
+        }
+        header.text(level + title); //重写标题
+    }
+    titleAddAnchor(header, id);
+    h3Toc.children.push({
+        name: title,
+        level: level,
+        url: id,
+        children: []
+    });
+}
+
+/**
+ * 处理h5
+ * @param count 计数器
+ * @param header
+ */
+function handlerH5Toc(config, count, header, tocs, pageLevel, modifyHeader) {
+    var title = header.text();
+    var id = header.attr('id');
+    var level = ''; //层级
+
+    if (tocs.length <= 0) {
+        //一级节点为空时，生成一个空的一级节点，让二级节点附带在这个上面
+        if (config.showLevel) {
+            count.h1 += 1;
+        }
+        tocs.push({
+            name: "",
+            level: "",
+            url: "",
+            children: []
+        });
+    }
+    var h1Toc = tocs[tocs.length - 1];
+
+    var h2Tocs = h1Toc.children;
+    if (h2Tocs.length <= 0) {
+        //二级节点为空时，生成一个空的二级节点，让三级节点附带在这个上面
+        if (config.showLevel) {
+            count.h2 += 1;
+        }
+        h2Tocs.push({
+            name: "",
+            level: "",
+            url: "",
+            children: []
+        });
+    }
+    var h2Toc = h1Toc.children[h2Tocs.length - 1];
+
+    var h3Tocs = h2Toc.children;
+    if (h3Tocs.length <= 0) {
+        //二级节点为空时，生成一个空的二级节点，让三级节点附带在这个上面
+        if (config.showLevel) {
+            count.h3 += 1;
+        }
+        h3Tocs.push({
+            name: "",
+            level: "",
+            url: "",
+            children: []
+        });
+    }
+    var h3Toc = h2Toc.children[h3Tocs.length - 1];
+
+    var h4Tocs = h3Toc.children;
+    if (h4Tocs.length <= 0) {
+        //二级节点为空时，生成一个空的二级节点，让三级节点附带在这个上面
+        if (config.showLevel) {
+            count.h4 += 1;
+        }
+        h4Tocs.push({
+            name: "",
+            level: "",
+            url: "",
+            children: []
+        });
+    }
+    var h4Toc = h3Toc.children[h4Tocs.length - 1];
+
+    if (config.showLevel) {
+        count.h5 += 1;
+        if (config.multipleH1) {
+            level = (count.h1 + '.' + count.h2 + '.' + count.h3 + '.' + count.h4 + '.' + count.h5 + '. ');
+        } else {
+            level = (count.h2 + '.' + count.h3 + '.' + count.h4 + '.' + count.h5 + '. ');
+        }
+        if (config.associatedWithSummary && config.themeDefault.showLevel) {
+            level = pageLevel + "." + level;
+        }
+        if (!modifyHeader) {
+            level  = '';
+        }
+        header.text(level + title); //重写标题
+    }
+    titleAddAnchor(header, id);
+    h4Toc.children.push({
+        name: title,
+        level: level,
+        url: id,
+        children: []
+    });
+}
+
+/**
+ * 处理h6
+ * @param count 计数器
+ * @param header
+ */
+function handlerH6Toc(config, count, header, tocs, pageLevel, modifyHeader) {
+    var title = header.text();
+    var id = header.attr('id');
+    var level = ''; //层级
+
+    if (tocs.length <= 0) {
+        //一级节点为空时，生成一个空的一级节点，让二级节点附带在这个上面
+        if (config.showLevel) {
+            count.h1 += 1;
+        }
+        tocs.push({
+            name: "",
+            level: "",
+            url: "",
+            children: []
+        });
+    }
+    var h1Toc = tocs[tocs.length - 1];
+
+    var h2Tocs = h1Toc.children;
+    if (h2Tocs.length <= 0) {
+        //二级节点为空时，生成一个空的二级节点，让三级节点附带在这个上面
+        if (config.showLevel) {
+            count.h2 += 1;
+        }
+        h2Tocs.push({
+            name: "",
+            level: "",
+            url: "",
+            children: []
+        });
+    }
+    var h2Toc = h1Toc.children[h2Tocs.length - 1];
+
+    var h3Tocs = h2Toc.children;
+    if (h3Tocs.length <= 0) {
+        //二级节点为空时，生成一个空的二级节点，让三级节点附带在这个上面
+        if (config.showLevel) {
+            count.h3 += 1;
+        }
+        h3Tocs.push({
+            name: "",
+            level: "",
+            url: "",
+            children: []
+        });
+    }
+    var h3Toc = h2Toc.children[h3Tocs.length - 1];
+
+    var h4Tocs = h3Toc.children;
+    if (h4Tocs.length <= 0) {
+        //二级节点为空时，生成一个空的二级节点，让三级节点附带在这个上面
+        if (config.showLevel) {
+            count.h4 += 1;
+        }
+        h4Tocs.push({
+            name: "",
+            level: "",
+            url: "",
+            children: []
+        });
+    }
+    var h4Toc = h3Toc.children[h4Tocs.length - 1];
+
+    var h5Tocs = h4Toc.children;
+    if (h5Tocs.length <= 0) {
+        //二级节点为空时，生成一个空的二级节点，让三级节点附带在这个上面
+        if (config.showLevel) {
+            count.h5 += 1;
+        }
+        h5Tocs.push({
+            name: "",
+            level: "",
+            url: "",
+            children: []
+        });
+    }
+    var h5Toc = h4Toc.children[h5Tocs.length - 1];
+
+    if (config.showLevel) {
+        count.h5 += 1;
+        if (config.multipleH1) {
+            level = (count.h1 + '.' + count.h2 + '.' + count.h3 + '.' + count.h4 + '.' + count.h5 + '.' + count.h6 + '. ');
+        } else {
+            level = (count.h2 + '.' + count.h3 + '.' + count.h4 + '.' + count.h5 + '.' + count.h6 + '. ');
+        }
+        if (config.associatedWithSummary && config.themeDefault.showLevel) {
+            level = pageLevel + "." + level;
+        }
+        if (!modifyHeader) {
+            level  = '';
+        }
+        header.text(level + title); //重写标题
+    }
+    titleAddAnchor(header, id);
+    h5Toc.children.push({
+        name: title,
+        level: level,
+        url: id,
+        children: []
+    });
+}
+
 /**
  * 处理浮动导航：拼接锚点导航html，并添加到html末尾，利用css 悬浮
  * @param tocs
@@ -265,7 +556,39 @@ function handlerFloatNavbar($, tocs) {
                     html += "<ul>";
                     for (var k = 0; k < h2Toc.children.length; k++) {
                         var h3Toc = h2Toc.children[k];
-                        html += "<li><span class='title-icon " + level3Icon + "'></span><a href='#" + h3Toc.url + "'><b>" + h3Toc.level + "</b>" + h3Toc.name + "</a></li>";
+                        if(h3Toc.name) {
+                            html += "<li><span class='title-icon " + level3Icon + "'></span><a href='#" + h3Toc.url + "'><b>" + h3Toc.level + "</b>" + h3Toc.name + "</a></li>";
+                        }
+                        if(h3Toc.children.length > 0) {
+                            html += "<ul>";
+                            for(var l = 0; l < h3Toc.children.length; l++) {
+                                var h4Toc = h3Toc.children[l];
+                                if(h4Toc.name) {
+                                    html += "<li><a href='#" + h4Toc.url + "'><b>" + h4Toc.level + "</b>" + h4Toc.name + "</a></li>";
+                                }
+                                if(h4Toc.children.length > 0) {
+                                    html += "<ul>";
+                                    for(var m = 0; m < h4Toc.children.length; m++) {
+                                        var h5Toc = h4Toc.children[m];
+                                        if(h5Toc.name) {
+                                            html += "<li><a href='#" + h5Toc.url + "'><b>" + h5Toc.level + "</b>" + h5Toc.name + "</a></li>";
+                                        }
+                                        if(h5Toc.children.length > 0) {
+                                            html += "<ul>";
+                                            for(var n = 0; n < h5Toc.children.length; n++) {
+                                                var h6Toc = h5Toc.children[n];
+                                                if(h6Toc.name) {
+                                                    html += "<li><a href='#" + h4Toc.url + "'><b>" + h4Toc.level + "</b>" + h4Toc.name + "</a></li>";
+                                                }
+                                            }
+                                            html += "</ul>";
+                                        }
+                                    }
+                                    html += "</ul>";
+                                }
+                            }
+                            html += "</ul>";
+                        }
                     }
                     html += "</ul>";
                 }
