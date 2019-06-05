@@ -104,6 +104,9 @@ function handlerH1Toc(config, count, header, tocs, pageLevel, modifyHeader) {
         count.h1 += 1;
         count.h2 = 0;
         count.h3 = 0;
+        count.h4 = 0;
+        count.h5 = 0;
+        count.h6 = 0;
         if (config.multipleH1) {
             level = count.h1 + '. ';
         } else {
@@ -156,6 +159,9 @@ function handlerH2Toc(config, count, header, tocs, pageLevel, modifyHeader) {
     if (config.showLevel) {
         count.h2 += 1;
         count.h3 = 0;
+        count.h4 = 0;
+        count.h5 = 0;
+        count.h6 = 0;
         if (config.multipleH1) {
             level = (count.h1 + '.' + count.h2 + '. ');
         } else {
@@ -219,6 +225,9 @@ function handlerH3Toc(config, count, header, tocs, pageLevel, modifyHeader) {
 
     if (config.showLevel) {
         count.h3 += 1;
+        count.h4 = 0;
+        count.h5 = 0;
+        count.h6 = 0;
         if (config.multipleH1) {
             level = (count.h1 + '.' + count.h2 + '.' + count.h3 + '. ');
         } else {
@@ -298,6 +307,8 @@ function handlerH4Toc(config, count, header, tocs, pageLevel, modifyHeader) {
 
     if (config.showLevel) {
         count.h4 += 1;
+        count.h5 = 0;
+        count.h6 = 0;
         if (config.multipleH1) {
             level = (count.h1 + '.' + count.h2 + '.' + count.h3 + '.' + count.h4 + '. ');
         } else {
@@ -391,6 +402,7 @@ function handlerH5Toc(config, count, header, tocs, pageLevel, modifyHeader) {
 
     if (config.showLevel) {
         count.h5 += 1;
+        count.h6 = 0;
         if (config.multipleH1) {
             level = (count.h1 + '.' + count.h2 + '.' + count.h3 + '.' + count.h4 + '.' + count.h5 + '. ');
         } else {
@@ -498,7 +510,7 @@ function handlerH6Toc(config, count, header, tocs, pageLevel, modifyHeader) {
     var h5Toc = h4Toc.children[h5Tocs.length - 1];
 
     if (config.showLevel) {
-        count.h5 += 1;
+        count.h6 += 1;
         if (config.multipleH1) {
             level = (count.h1 + '.' + count.h2 + '.' + count.h3 + '.' + count.h4 + '.' + count.h5 + '.' + count.h6 + '. ');
         } else {
